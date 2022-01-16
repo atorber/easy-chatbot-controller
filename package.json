@@ -1,0 +1,53 @@
+{
+  "name": "easy-chatbot-controller",
+  "version": "0.1.0",
+  "description": "http to mqtt for chatbot",
+  "main": "src/botclient.js",
+  "files": [
+    "examples",
+    "lib",
+    "doc",
+    "src",
+    "test",
+    "database"
+  ],
+  "author": "atorber",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=7"
+  },
+  "type": "module",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "uuid": "^8.3.2",
+    "mqtt": "^4.2.6",
+    "wx-server-sdk": "~2.4.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test/index.js",
+    "release": "verpub publish",
+    "release:dry": "verpub --dry-run"
+  },
+  "keywords": [
+    "wechaty",
+    "chatbot",
+    "bot",
+    "vika"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atorber/easy-chatbot-controller.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  },
+  "git": {
+    "scripts": {
+      "pre-push": "npx git-scripts-pre-push"
+    }
+  }
+}
