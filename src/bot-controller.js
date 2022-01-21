@@ -1,15 +1,15 @@
-const rp = require('request-promise')
+import rp from 'request-promise'
 
-class BotClient {
-  constructor(username, password, botid) {
+class BotController {
+  constructor(iotcoreid,username, password, botId) {
     this.username = username
     this.password = password
-    this.botid = botid
-    this.host = 'https://bd.iot.gz.baidubce.com'
+    this.botId = botId
+    this.host = `https://${iotcoreid}.iot.gz.baidubce.com`
   }
 
   async pubMsg(msg) {
-    let commandInvoke = `thing/wechaty/${this.botid}/command/invoke`
+    let commandInvoke = `thing/chatbot/${this.botId}/command/invoke`
     // 获取mqtt请求token
     let opt = {
       method: 'POST',
@@ -24,6 +24,7 @@ class BotClient {
 
     let res = await rp(opt)
     let pub_token = res.token
+    console.debug(pub_token)
 
     // 推送消息
     let url = `${this.host}pub?topic=${commandInvoke}&qos=0`
@@ -41,6 +42,8 @@ class BotClient {
     // console.info(opt)
 
     let push_res = await rp(opt)
+    console.debug(push_res)
+
     return push_res
   }
 
@@ -96,6 +99,6 @@ class BotClient {
   }
 }
 
-export { BotClient }
+export { BotController }
 
-export default BotClient
+export default BotController
