@@ -1,38 +1,34 @@
 import rp from 'request-promise'
+import { v4 } from 'uuid'
 
 class BotController {
-  constructor(iotcoreid,username, password, botId) {
+  constructor(iotcoreid, username, password, botId) {
     this.username = username
     this.password = password
     this.botId = botId
-    this.host = `https://${iotcoreid}.iot.gz.baidubce.com`
+    this.host = `http://${iotcoreid}.iot.gz.baidubce.com`
+    this.authTime = 0
+    this.token = ''
+    this.commandInvoke = `thing/chatbot/${botId}/command/invoke`
   }
 
   async pubMsg(msg) {
-    let commandInvoke = `thing/chatbot/${this.botId}/command/invoke`
-    // 获取mqtt请求token
-    let opt = {
-      method: 'POST',
-      url: this.host,
-      body: {
-        username: this.username,
-        password: this.password
-      },
-      json: true,
-      encoding: null
+    let curTime = new Date().getTime()
+    let isTimeOut = (curTime - this.authTime) < 180 && this.authTime != 0
+    if (!this.token || isTimeOut) {
+      try {
+        await this.auth()
+      } catch (err) {
+        return err
+      }
     }
-
-    let res = await rp(opt)
-    let pub_token = res.token
-    console.debug(pub_token)
-
     // 推送消息
-    let url = `${this.host}pub?topic=${commandInvoke}&qos=0`
-    opt = {
+    let url = `${this.host}/pub?topic=${this.commandInvoke}&qos=0`
+    let opt = {
       method: 'POST',
       url,
       headers: {
-        token: pub_token,
+        token: this.token,
         Accept: 'application/json',
         'Content-Type': 'application/octet-stream'
       },
@@ -43,14 +39,35 @@ class BotController {
 
     let push_res = await rp(opt)
     console.debug(push_res)
-
     return push_res
   }
 
-  async send(toContacts, messagePayload) {
+  async auth() {
+    // 获取mqtt请求token
+    let opt = {
+      method: 'POST',
+      url: `${this.host}/auth`,
+      body: {
+        username: this.username,
+        password: this.password,
+        tokenLifeSpanInSeconds: 600
+      },
+      json: true,
+      encoding: null
+    }
+
+    let res = await rp(opt)
+    if (res.token) {
+      this.token = res.token
+      this.authTime = new Date().getTime()
+    }
+    return res
+  }
+
+  async sendText(toContacts, text) {
 
     let msg = {
-      "reqId": "442c1da4-9d3a-4f9b-a6e9-bfe858e4ac43",
+      "reqId": v4(),
       "method": "thing.command.invoke",
       "version": "1.0",
       "timestamp": this.getCurTs(),
@@ -58,7 +75,7 @@ class BotController {
       "params": {
         toContacts,
         "messageType": "Text",
-        messagePayload
+        messagePayload: text
       }
     }
 
@@ -66,7 +83,97 @@ class BotController {
 
   }
 
-  async sendAt(room, toContacts, messagePayload) {
+  async sendContact(toContacts, contactId) {
+
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        toContacts,
+        messageType: "Contact",
+        messagePayload: contactId
+      }
+    }
+
+    return await this.pubMsg(msg)
+  }
+
+  async sendAttachment(toContacts, url) {
+
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        toContacts,
+        "messageType": "Attachment",
+        messagePayload: url
+      }
+    }
+    return await this.pubMsg(msg)
+  }
+
+  async sendImage(toContacts, url) {
+
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        toContacts,
+        "messageType": "Image",
+        messagePayload: url
+      }
+    }
+    return await this.pubMsg(msg)
+  }
+
+  async sendUrl(toContacts, link) {
+    if (!(link.url && link.title && link.thumbnailUrl && link.description)) {
+      return '缺少必要参数'
+    }
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        toContacts,
+        "messageType": "Url",
+        messagePayload: link
+      }
+    }
+    return await this.pubMsg(msg)
+  }
+
+  async sendMiniProgram(toContacts, mp) {
+    if (!(mp.appid && mp.title && mp.pagePath && mp.thumbKey && mp.username)) {
+      return '缺少必要参数'
+    }
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        toContacts,
+        "messageType": "MiniProgram",
+        messagePayload: mp
+      }
+    }
+    return await this.pubMsg(msg)
+  }
+
+  async sendAt(toContacts, text, room) {
     let msg = {
       "reqId": "442c1da4-9d3a-4f9b-a6e9-bfe858e4ac43",
       "method": "thing.command.invoke",
@@ -76,7 +183,7 @@ class BotController {
       "params": {
         room,
         toContacts,
-        messagePayload
+        messagePayload: text
       }
     }
 

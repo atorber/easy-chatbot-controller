@@ -1,3 +1,3 @@
 ## 简介
 
-http装mqtt，chatbot控制器
+http转mqtt，chatbot控制器
