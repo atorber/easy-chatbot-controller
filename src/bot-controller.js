@@ -64,6 +64,23 @@ class BotController {
     return res
   }
 
+  async createRoom(contactList, topic) {
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "send",
+      "params": {
+        "contactList": contactList,
+        "topic": topic
+      }
+    }
+
+    return await this.pubMsg(msg)
+
+  }
+
   async sendText(toContacts, text) {
 
     let msg = {

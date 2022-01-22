@@ -1,14 +1,20 @@
 import BotController from '../src/index.js'
 
-const iotcoreid = ''
-const username = ''
-const password = ''
-const botId = ''
+// const iotcoreid = ''
+// const username = ''
+// const password = ''
+// const botId = ''
+
+const iotcoreid = 'alvxdkj'
+const username = 'alvxdkj/atorber'
+const password = 'KBJQQycNNeVnQOlw'
+const botId = 'atorber'
 
 const bcr = new BotController(iotcoreid, username, password, botId)
 
 async function main() {
-  // await bcr.sendText(['tyutluyc',], 'hello')
+  await bcr.sendText(['tyutluyc',], 'hello')
+  await bcr.createRoom(['tyutluyc', 'ledongmao'], 'hello')
   // await bcr.sendContact(['tyutluyc',],'ledongmao')
   // await bcr.sendAttachment(['tyutluyc',],'https://wechaty.github.io/wechaty/images/bot-qr-code.png')
   // await bcr.sendImage(['tyutluyc',],'https://wechaty.github.io/wechaty/images/bot-qr-code.png')
@@ -28,7 +34,7 @@ async function main() {
     "title": "Welcome to Wechaty",
     "url": "https://github.com/wechaty/wechaty"
   }
-  await bcr.sendUrl(['tyutluyc',], link)
+  // await bcr.sendUrl(['tyutluyc',], link)
   // await bcr.sendAt(['tyutluyc',], 'hi', '5550027590@chatroom')
 }
 
