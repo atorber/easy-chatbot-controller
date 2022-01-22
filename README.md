@@ -6,7 +6,7 @@ easy-chatbot-controller是一个聊天机器人控制器，可以使用htpp调�
 
 ## 实现架构
 
-控制端app——百度云MQTT——聊天机器人
+控制端app——百度云MQTT——wechaty聊天机器人
 
 ## 接口列表
 
