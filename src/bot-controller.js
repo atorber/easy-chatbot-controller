@@ -81,6 +81,38 @@ class BotController {
 
   }
 
+  async contactFindAll() {
+
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "contactFindAll",
+      "params": {
+      }
+    }
+
+    return await this.pubMsg(msg)
+
+  }
+
+  async roomFindAll() {
+
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": "roomFindAll",
+      "params": {
+      }
+    }
+
+    return await this.pubMsg(msg)
+
+  }
+
   async sendText(toContacts, text) {
 
     let msg = {
