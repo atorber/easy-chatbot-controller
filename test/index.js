@@ -5,11 +5,6 @@ import BotController from '../src/index.js'
 // const password = ''
 // const botId = ''
 
-const iotcoreid = 'alvxdkj'
-const username = 'alvxdkj/atorber'
-const password = 'KBJQQycNNeVnQOlw'
-const botId = 'atorber'
-
 const bcr = new BotController(iotcoreid, username, password, botId)
 
 async function main() {
