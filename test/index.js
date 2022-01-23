@@ -1,14 +1,9 @@
 import BotController from '../src/index.js'
 
-// const iotcoreid = ''
-// const username = ''
-// const password = ''
-// const botId = ''
-
-const iotcoreid = 'alvxdkj'
-const username = 'alvxdkj/atorber'
-const password = 'KBJQQycNNeVnQOlw'
-const botId = 'atorber'
+const iotcoreid = ''
+const username = ''
+const password = ''
+const botId = ''
 
 const bcr = new BotController(iotcoreid, username, password, botId)
 

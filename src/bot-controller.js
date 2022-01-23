@@ -3,13 +3,14 @@ import { v4 } from 'uuid'
 
 class BotController {
   constructor(iotcoreid, username, password, botId) {
-    this.username = username
-    this.password = password
-    this.botId = botId
-    this.host = `http://${iotcoreid}.iot.gz.baidubce.com`
+    this.username = username || process.env['MQTT_USERNAME']
+    this.password = password || process.env['MQTT_PASSWORD']
+    this.botId = botId || process.env['BOTID']
+    this.iotcoreid = iotcoreid || process.env['MQTT_COREID']
+    this.host = `http://${this.iotcoreid}.iot.gz.baidubce.com`
     this.authTime = 0
     this.token = ''
-    this.commandInvoke = `thing/chatbot/${botId}/command/invoke`
+    this.commandInvoke = `thing/chatbot/${this.botId}/command/invoke`
   }
 
   async pubMsg(msg) {
