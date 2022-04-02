@@ -2,11 +2,14 @@
 
 easy-chatbot-controller是一个聊天机器人控制器，可以使用htpp调用方式向你的聊天机器人发布消息。
 
-配合聊天机器人客户端使用 https://github.com/atorber/wechaty-mqtt-link
+配合聊天机器人客户端使用 [wechaty-mqtt-link](https://github.com/atorber/wechaty-mqtt-link) 
 
 ## 实现架构
 
 控制端app——百度云MQTT——wechaty聊天机器人
+
+![image](https://user-images.githubusercontent.com/19552906/161385159-a61696cd-d69c-4be4-b6f6-40590f10e499.png)
+
 
 ## 接口列表
 
