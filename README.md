@@ -10,6 +10,11 @@ easy-chatbot-controller是一个聊天机器人控制器，可以使用htpp调�
 
 ![image](https://user-images.githubusercontent.com/19552906/161385159-a61696cd-d69c-4be4-b6f6-40590f10e499.png)
 
+## 安装
+
+```
+npm install easy-chatbot-controller@latest
+```
 
 ## 接口列表
 
