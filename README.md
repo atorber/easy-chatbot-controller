@@ -182,11 +182,11 @@ const bcr = new BotController(iotcoreid, username, password, botId)
 async function main() {
   let name = "send"
   let params = {
-        toContacts:['tyutluyc',],
-        "messageType": "Text",
-        messagePayload: 'hello'
-      }
-  await bcr.pubMsgByName(['tyutluyc',], 'hello')
+    toContacts: ['tyutluyc',],
+    "messageType": "Text",
+    messagePayload: 'hello'
+  }
+  await bcr.pubMsgByName(name, 'params')
   // await bcr.sendText(['tyutluyc',], 'hello')
   // await bcr.sendContact(['tyutluyc',],'ledongmao')
   // await bcr.sendAttachment(['tyutluyc',],'https://wechaty.github.io/wechaty/images/bot-qr-code.png')
