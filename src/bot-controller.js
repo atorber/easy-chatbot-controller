@@ -43,6 +43,44 @@ class BotController {
     return push_res
   }
 
+  async pubMsgByName(name, params) {
+    let msg = {
+      "reqId": v4(),
+      "method": "thing.command.invoke",
+      "version": "1.0",
+      "timestamp": this.getCurTs(),
+      "name": name,
+      "params": params
+    }
+    let curTime = new Date().getTime()
+    let isTimeOut = (curTime - this.authTime) < 180 && this.authTime != 0
+    if (!this.token || isTimeOut) {
+      try {
+        await this.auth()
+      } catch (err) {
+        return err
+      }
+    }
+    // 推送消息
+    let url = `${this.host}/pub?topic=${this.commandInvoke}&qos=0`
+    let opt = {
+      method: 'POST',
+      url,
+      headers: {
+        token: this.token,
+        Accept: 'application/json',
+        'Content-Type': 'application/octet-stream'
+      },
+      body: JSON.stringify(msg)
+    }
+
+    // console.info(opt)
+
+    let push_res = await rp(opt)
+    console.debug(push_res)
+    return push_res
+  }
+
   async auth() {
     // 获取mqtt请求token
     let opt = {
