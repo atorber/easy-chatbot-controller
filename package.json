@@ -1,6 +1,6 @@
 {
   "name": "easy-chatbot-controller",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "http to mqtt for chatbot",
   "main": "src/index.js",
   "files": [

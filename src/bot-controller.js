@@ -256,7 +256,7 @@ class BotController {
   }
 
   async sendMiniProgram(toContacts, mp) {
-    if (!(mp.appid && mp.title && mp.pagePath && mp.thumbKey && mp.username)) {
+    if (!(mp.appid && mp.title && mp.pagePath && mp.username)) {
       return '缺少必要参数'
     }
     let msg = {
