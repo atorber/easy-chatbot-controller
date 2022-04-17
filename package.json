@@ -1,6 +1,6 @@
 {
   "name": "easy-chatbot-controller",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "http to mqtt for chatbot",
   "main": "src/index.js",
   "files": [
@@ -17,6 +17,7 @@
     "node": ">=16",
     "npm": ">=7"
   },
+  "type": "module",
   "dependencies": {
     "moment": "^2.29.1",
     "uuid": "^8.3.2",
